@@ -51,10 +51,13 @@ fun <T> LiveData<T>.merge(with: LiveData<T>): LiveData<T> =
             addSource(with, ::setValue)
         }
 
+fun <T> LiveData<T>.pair(seed: T): LiveData<Pair<T, T>> = pairUnsafe(seed)
+fun <T> LiveData<T>.pair(): LiveData<Pair<T, T>> = pairUnsafe(Uninitialized)
+
 @Suppress("UNCHECKED_CAST")
-fun <T> LiveData<T>.pair(): LiveData<Pair<T, T>> =
+internal fun <T> LiveData<T>.pairUnsafe(seed: Any?): LiveData<Pair<T, T>> =
         lift { next ->
-            var previous: Any? = Uninitialized
+            var previous: Any? = seed
 
             { value ->
                 if (previous != Uninitialized)

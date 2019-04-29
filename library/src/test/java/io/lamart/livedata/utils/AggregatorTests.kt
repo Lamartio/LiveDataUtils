@@ -54,6 +54,15 @@ class AggregatorTests {
     }
 
     @Test
+    fun pairWithSeed() {
+        val observable = mutableLiveDataOf<Int>()
+        val observer = observable.pair(1).test()
+
+        observable.setValues(2)
+        observer.assertValue(1 to 2)
+    }
+
+    @Test
     fun window() {
         val observable = mutableLiveDataOf<Int>()
         val observer = observable.window(2).test()

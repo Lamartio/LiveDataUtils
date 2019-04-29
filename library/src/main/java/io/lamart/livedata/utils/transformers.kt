@@ -45,20 +45,6 @@ inline fun <reified R> LiveData<*>.cast(): LiveData<R> = map { it as R }
 
 inline fun <reified R> LiveData<*>.castIf(): LiveData<R> = filter { it is R }.cast()
 
-fun <T> LiveData<T>.prepend(startValue: T): LiveData<T> =
-        lift { next ->
-            var isFirst = true
-
-            { value ->
-                if (isFirst) {
-                    isFirst = false
-                    next(startValue)
-                }
-
-                next(value)
-            }
-        }
-
 fun <T> LiveData<T>.first(): LiveData<T> = take(1)
 fun <T> LiveData<T>.take(count: Int): LiveData<T> =
         lift { next ->

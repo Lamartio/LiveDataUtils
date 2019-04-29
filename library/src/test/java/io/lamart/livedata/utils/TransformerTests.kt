@@ -94,15 +94,6 @@ class TransformerTests {
                 .assertValueHistory("1", "1")
     }
 
-
-    @Test
-    fun prepend() {
-        mutableLiveDataOf(1)
-                .prepend(2)
-                .test()
-                .assertValueHistory(2, 1)
-    }
-
     @Test
     fun take() {
         val observable = mutableLiveDataOf<Int>()

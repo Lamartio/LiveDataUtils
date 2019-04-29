@@ -28,7 +28,7 @@ inline fun <reified T : ViewModel> Fragment.viewModel(vararg params: Any): Lazy<
         lazy {
             application
                     .factory
-                    .withParams(params)
+                    .withParams(*params)
                     .let { ViewModelProviders.of(this, it) }
                     .get(T::class.java)
         }

@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 class ViewModelFactory(
-        application: Application,
+        private val application: Application,
         block: Builder.() -> Unit = {}
 ) : ViewModelProvider.AndroidViewModelFactory(application) {
 
@@ -41,9 +41,9 @@ class ViewModelFactory(
                 params = Params()
             }
 
-    fun withParams(params: Array<out Any>): ViewModelFactory =
+    fun withParams(vararg params: Any): ViewModelFactory =
             also {
-                it.params = params.toList().let(::Params)
+                it.params = params.toMutableList().apply { add(application) }.let(::Params)
             }
 
     inner class Builder {

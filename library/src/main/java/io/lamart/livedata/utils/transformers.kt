@@ -19,9 +19,15 @@ package io.lamart.livedata.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 
-//  reduce
+/**
+ * The compose argument is a function that contains a custom operator.
+ */
 
 fun <T, R> LiveData<T>.compose(compose: Compose<T, R>): LiveData<R> = compose(this@compose)
+
+/**
+ * Simple way for creating a custom operator call the subscriber arguemnt whener you want to emit a value to the next LiveData.
+ */
 
 fun <T, R> LiveData<T>.wrap(wrap: (value: T, subscriber: Subscriber<R>) -> Unit): LiveData<R> =
         mediate { addSource, setValue ->
@@ -30,22 +36,47 @@ fun <T, R> LiveData<T>.wrap(wrap: (value: T, subscriber: Subscriber<R>) -> Unit)
             }
         }
 
+/**
+ * Advanced way for creating a custom operator. As opposed to `wrap`, it allows holding (mutable) state.
+ */
+
 fun <T, R> LiveData<T>.lift(lift: (subscriber: Subscriber<R>) -> Subscriber<T>): LiveData<R> =
         mediate { addSource, setValue ->
             lift(setValue).let(addSource)
         }
+
+/**
+ * Whenever the predicate returns `true`, the value will be emitted.
+ */
 
 fun <T> LiveData<T>.filter(predicate: (T) -> Boolean): LiveData<T> =
         wrap { value, next ->
             value.takeIf(predicate)?.let(next)
         }
 
+/**
+ * Cast the incoming value to the type. CAUTION: this is unsafe
+ */
+
 @Suppress("UNCHECKED_CAST")
 inline fun <reified R> LiveData<*>.cast(): LiveData<R> = map { it as R }
 
+/**
+ * Safely cast the income value to the type. If it is not able to cast, it will not emit the value.
+ */
+
 inline fun <reified R> LiveData<*>.castIf(): LiveData<R> = filter { it is R }.cast()
 
+/**
+ * Only emits the first icoming value.
+ */
+
 fun <T> LiveData<T>.first(): LiveData<T> = take(1)
+
+/**
+ * Limits its emissions by the given argument.
+ */
+
 fun <T> LiveData<T>.take(count: Int): LiveData<T> =
         lift { next ->
             var total = 0
@@ -57,6 +88,10 @@ fun <T> LiveData<T>.take(count: Int): LiveData<T> =
                 }
             }
         }
+
+/**
+ * Skips the `count` amount before emitting values.
+ */
 
 fun <T> LiveData<T>.skip(count: Int): LiveData<T> =
         lift { next ->
@@ -70,6 +105,10 @@ fun <T> LiveData<T>.skip(count: Int): LiveData<T> =
                 }
             }
         }
+
+/**
+ * Uses the previously emitted value and the current value to create a new value. The new value will be cached for the next emission.
+ */
 
 @Suppress("UNCHECKED_CAST")
 fun <T> LiveData<T>.reduce(accumulator: Accumulator<T, T>): LiveData<T> =
@@ -87,31 +126,35 @@ fun <T> LiveData<T>.reduce(accumulator: Accumulator<T, T>): LiveData<T> =
             }
         }
 
-fun <T, R> LiveData<T>.reduce(seed: R, accumulator: Accumulator<T, R>): LiveData<R> =
-        reduce<T, R>({ seed }, accumulator)
+/**
+ * Uses the previously emitted value and the current value to create a new value. The new value will be cached for the next emission.
+ *
+ * The seed is functioning as the first `previous` value.
+ */
 
 @Suppress("UNCHECKED_CAST")
-fun <T, R> LiveData<T>.reduce(getSeed: () -> R, accumulator: Accumulator<T, R>): LiveData<R> =
+fun <T, R> LiveData<T>.reduce(seed: R, accumulator: Accumulator<T, R>): LiveData<R> =
         lift { next ->
-            var seed: Any? = Uninitialized
+            var cache: Any? = Uninitialized
 
             { value ->
-                if (seed is Uninitialized) {
-                    seed = getSeed()
-                    next(seed as R)
+                if (cache is Uninitialized) {
+                    cache = seed
+                    next(cache as R)
                 }
 
-                seed = accumulator(seed as R, value)
-                next(seed as R)
+                cache = accumulator(cache as R, value)
+                next(cache as R)
             }
         }
 
+/**
+ * Whenever observing starts, it is prepended with the given argument.
+ */
 
-fun <T> LiveData<T>.startWith(value: T): LiveData<T> = startWith<T> { value }
-
-fun <T> LiveData<T>.startWith(getValue: () -> T): LiveData<T> =
+fun <T> LiveData<T>.startWith(value: T): LiveData<T> =
         lift { next ->
-            getValue().let(next);
+            next(value);
             { value ->
                 next(value)
             }

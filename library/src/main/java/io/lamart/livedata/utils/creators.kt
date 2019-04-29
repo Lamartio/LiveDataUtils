@@ -20,12 +20,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 
+/**
+ * Create a MediatorLiveData and takes a function that initializes that MediatorLiveData.
+ */
+
 fun <T> mediatorLiveDataOf(block: MediatorLiveData<T>.() -> Unit): MutableLiveData<T> =
         MediatorLiveData<T>().apply(block)
 
 fun <T> mutableLiveDataOf() = MutableLiveData<T>()
 
 fun <T> mutableLiveDataOf(value: T) = MutableLiveData<T>(value)
+
+/**
+ * Creates MutableLiveData that receives values (over time) through the given argument.
+ */
 
 fun <T> liveDataOf(subscribe: Subscribe<T>): LiveData<T> =
         MutableLiveData<T>().apply {

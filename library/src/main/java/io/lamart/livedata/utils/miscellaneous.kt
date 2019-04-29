@@ -21,6 +21,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.switchMap
 
+/**
+ * Before passing the value to the next LiveData, the argument is called. Handy for creating side-effect (like logging)
+ */
 
 fun <T> LiveData<T>.beforeEach(subscriber: Subscriber<T>): LiveData<T> =
         wrap { value, next ->
@@ -28,11 +31,19 @@ fun <T> LiveData<T>.beforeEach(subscriber: Subscriber<T>): LiveData<T> =
             next(value)
         }
 
+/**
+ * After passing the value to the next LiveData, the argument is called. Handy for creating side-effect (like logging)
+ */
+
 fun <T> LiveData<T>.afterEach(subscriber: Subscriber<T>): LiveData<T> =
         wrap { value, next ->
             next(value)
             subscriber(value)
         }
+
+/**
+ * Calls `postValue` which ensures that all subsequent operations are done on the main thread.
+ */
 
 fun <T> LiveData<T>.post(): LiveData<T> =
         switchMap {
@@ -41,9 +52,19 @@ fun <T> LiveData<T>.post(): LiveData<T> =
             }
         }
 
+/**
+ * Calls `postValue` after the given argument. It ensures that all subsequent operations are done on the main thread.
+ *
+ * Handy for if you want operations done prior coming to the main thread.
+ */
+
 fun <T, R> LiveData<T>.post(compose: Compose<T, R>): LiveData<R> =
         compose(compose).post()
 
+
+/**
+ * Convenience method for delegating data to a MediatorLiveData.
+ */
 
 fun <T, R> LiveData<T>.mediate(block: (addSource: Subscribe<T>, setValue: Subscriber<R>) -> Unit): LiveData<R> =
         mediatorLiveDataOf {

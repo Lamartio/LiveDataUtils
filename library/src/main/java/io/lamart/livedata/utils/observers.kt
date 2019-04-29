@@ -20,11 +20,23 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
+/**
+ * It returns a function that represents observing this LiveData. Since it already has the LifecycleOwner, it doesn't need it anymore as an argument.
+ */
+
 fun <T> LiveData<T>.observe(owner: LifecycleOwner): Observe<T> =
         { observer -> this@observe.observe(owner, observer) }
+
+/**
+ * Allows observing the LiveData through a function instead of the `Observer` functional interface.
+ */
 
 fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, subscriber: (T) -> Unit) =
         observe(owner, Observer(subscriber))
 
+/**
+ * It returns a function that represents subscribing to this LiveData. Since it already has the LifecycleOwner, it doesn't need it anymore as an argument.
+ */
+
 fun <T> LiveData<T>.subscribe(owner: LifecycleOwner): Subscribe<T> =
-        { subscriber -> observe(owner, Observer(subscriber)) }
+        { subscriber -> subscribe(owner, subscriber) }

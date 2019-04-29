@@ -29,11 +29,23 @@ class MiscTests {
     val testRule = InstantTaskExecutorRule()
 
     @Test
-    fun on() {
+    fun afterEach() {
         var result = 0
 
         liveData(1)
-                .on { result = it }
+                .afterEach { result = it }
+                .test()
+                .assertValue(1)
+
+        assertEquals(1, result)
+    }
+
+    @Test
+    fun beforeEach() {
+        var result = 0
+
+        liveData(1)
+                .beforeEach { result = it }
                 .test()
                 .assertValue(1)
 

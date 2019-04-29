@@ -22,10 +22,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.switchMap
 
 
-fun <T> LiveData<T>.on(subscriber: Subscriber<T>): LiveData<T> =
+fun <T> LiveData<T>.beforeEach(subscriber: Subscriber<T>): LiveData<T> =
         wrap { value, next ->
             subscriber(value)
             next(value)
+        }
+
+fun <T> LiveData<T>.afterEach(subscriber: Subscriber<T>): LiveData<T> =
+        wrap { value, next ->
+            next(value)
+            subscriber(value)
         }
 
 fun <T> LiveData<T>.post(): LiveData<T> =

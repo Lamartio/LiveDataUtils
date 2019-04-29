@@ -41,7 +41,7 @@ class ViewModelFactory(
                 params = Params()
             }
 
-    fun withParams(params: Array<out Any?>): ViewModelFactory =
+    fun withParams(params: Array<out Any>): ViewModelFactory =
             also {
                 it.params = params.toList().let(::Params)
             }
@@ -56,7 +56,7 @@ class ViewModelFactory(
     }
 
     @Suppress("UNCHECKED_CAST")
-    data class Params(private val params: List<Any?> = emptyList()) {
+    data class Params(private val params: List<Any> = emptyList()) {
 
         operator fun <T> component1() = get<T>(0)
         operator fun <T> component2() = get<T>(1)

@@ -16,13 +16,11 @@
 
 package io.lamart.reaktive.livedata.sample
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import io.lamart.livedata.utils.Subscribe
-import io.lamart.livedata.utils.afterEach
 import io.lamart.livedata.utils.combineLatest
 import io.lamart.reaktive.livedata.sample.utils.Order
 import io.lamart.reaktive.livedata.sample.utils.State
@@ -35,7 +33,6 @@ class MainViewModel(
 
     val count: LiveData<String> = data
             .map { it.count.toString() }
-            .afterEach { Log.i("count", it) }
     val pokemon = data
             .map { it.pokemon }
             .combineLatest(order) { pokemon, order ->

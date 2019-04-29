@@ -24,7 +24,7 @@ import io.lamart.reaktive.livedata.sample.MainApplication
 val Fragment.application: MainApplication
     get() = requireContext().applicationContext as MainApplication
 
-inline fun <reified T : ViewModel> Fragment.viewModel(vararg params: Any?): Lazy<T> =
+inline fun <reified T : ViewModel> Fragment.viewModel(vararg params: Any): Lazy<T> =
         lazy {
             application
                     .factory

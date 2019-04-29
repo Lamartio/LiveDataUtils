@@ -64,12 +64,12 @@ class MainFragment : Fragment() {
 
         lifecycleOwner = this@MainFragment
         model = viewModel
+        viewModel.pokemon.subscribe(this@MainFragment, adapter::update)
 
         pokemonView.layoutManager = LinearLayoutManager(root.context)
         pokemonView.adapter = adapter
         pokemonView.addItemDecoration(DividerItemDecoration(root.context, DividerItemDecoration.VERTICAL))
 
-        viewModel.pokemon.subscribe(this@MainFragment, adapter::update)
     }
 
     companion object {

@@ -32,7 +32,7 @@ class MiscTests {
     fun afterEach() {
         var result = 0
 
-        liveData(1)
+        mutableLiveDataOf(1)
                 .afterEach { result = it }
                 .test()
                 .assertValue(1)
@@ -44,7 +44,7 @@ class MiscTests {
     fun beforeEach() {
         var result = 0
 
-        liveData(1)
+        mutableLiveDataOf(1)
                 .beforeEach { result = it }
                 .test()
                 .assertValue(1)
@@ -54,7 +54,7 @@ class MiscTests {
 
     @Test
     fun post() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .post()
                 .test()
                 .assertValue(1)
@@ -62,7 +62,7 @@ class MiscTests {
 
     @Test
     fun postWithCompose() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .post { it.map { it + 1 } }
                 .test()
                 .assertValue(2)
@@ -70,7 +70,7 @@ class MiscTests {
 
     @Test
     fun setValues() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.test()
 
         observable.setValues(1, 2)

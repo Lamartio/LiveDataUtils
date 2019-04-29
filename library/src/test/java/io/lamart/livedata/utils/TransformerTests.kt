@@ -28,12 +28,12 @@ class TransformerTests {
 
     @Test
     fun filter() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .filter { it == 1 }
                 .test()
                 .assertValue(1)
 
-        liveData(1)
+        mutableLiveDataOf(1)
                 .filter { it == 0 }
                 .test()
                 .assertNoValue()
@@ -41,7 +41,7 @@ class TransformerTests {
 
     @Test
     fun wrap() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .wrap<Int, String> { value, next ->
                     value.toString()
                             .also(next)
@@ -53,13 +53,13 @@ class TransformerTests {
 
     @Test
     fun cast() {
-        liveData("1")
+        mutableLiveDataOf("1")
                 .cast<CharSequence>()
                 .test()
                 .assertHasValue()
 
         try {
-            liveData("")
+            mutableLiveDataOf("")
                     .cast<Int>()
                     .test()
                     .assertNoValue()
@@ -69,12 +69,12 @@ class TransformerTests {
 
     @Test
     fun castIf() {
-        liveData("")
+        mutableLiveDataOf("")
                 .castIf<CharSequence>()
                 .test()
                 .assertHasValue()
 
-        liveData("")
+        mutableLiveDataOf("")
                 .castIf<Int>()
                 .test()
                 .assertNoValue()
@@ -82,7 +82,7 @@ class TransformerTests {
 
     @Test
     fun lift() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .lift<Int, String> { next ->
                     { value ->
                         value.toString()
@@ -97,7 +97,7 @@ class TransformerTests {
 
     @Test
     fun prepend() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .prepend(2)
                 .test()
                 .assertValueHistory(2, 1)
@@ -105,7 +105,7 @@ class TransformerTests {
 
     @Test
     fun take() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.take(2).test()
 
         observable.setValues(1, 2, 3)
@@ -114,7 +114,7 @@ class TransformerTests {
 
     @Test
     fun first() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.first().test()
 
         observable.setValues(1, 2, 3)
@@ -123,7 +123,7 @@ class TransformerTests {
 
     @Test
     fun skip() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.skip(2).test()
 
         observable.setValues(1, 2, 3)
@@ -132,7 +132,7 @@ class TransformerTests {
 
     @Test
     fun reduce() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable
                 .reduce { l, r -> l + r }
                 .test()
@@ -143,7 +143,7 @@ class TransformerTests {
 
     @Test
     fun reduceWithSeed() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable
                 .reduce(3.0) { l: Double, r: Int -> l + r }
                 .test()
@@ -154,7 +154,7 @@ class TransformerTests {
 
     @Test
     fun startWith() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable
                 .startWith(1)
                 .test()

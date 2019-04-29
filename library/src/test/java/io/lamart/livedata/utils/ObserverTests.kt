@@ -33,7 +33,7 @@ class ObserverTests {
     fun observe() {
         val observer = TestObserver.create<Int>()
 
-        liveData(1)
+        mutableLiveDataOf(1)
                 .observe(owner)
                 .invoke(observer)
 
@@ -44,7 +44,7 @@ class ObserverTests {
     fun subscribeMonad() {
         val observer = TestObserver.create<Int>()
 
-        liveData(1)
+        mutableLiveDataOf(1)
                 .subscribe(owner)
                 .invoke(observer::onChanged)
 
@@ -55,7 +55,7 @@ class ObserverTests {
     fun subscribeDyad() {
         val observer = TestObserver.create<Int>()
 
-        liveData(1)
+        mutableLiveDataOf(1)
                 .subscribe(owner, observer::onChanged)
 
         observer.assertHasValue()

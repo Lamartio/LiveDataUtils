@@ -30,7 +30,7 @@ class AggregatorTests {
 
     @Test
     fun combineLatest() {
-        liveData(1.0)
+        mutableLiveDataOf(1.0)
                 .combineLatest(subscribe(2)) { l, r -> l.plus(r).toString() }
                 .test()
                 .assertValue("3.0")
@@ -38,7 +38,7 @@ class AggregatorTests {
 
     @Test
     fun merge() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .merge(subscribe(2))
                 .test()
                 .assertValueHistory(1, 2)
@@ -46,7 +46,7 @@ class AggregatorTests {
 
     @Test
     fun pair() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.pair().test()
 
         observable.setValues(1, 2)
@@ -55,7 +55,7 @@ class AggregatorTests {
 
     @Test
     fun window() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.window(2).test()
 
         observable.setValues(1, 2, 3)
@@ -65,7 +65,7 @@ class AggregatorTests {
 
     @Test
     fun partialWindow() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.window(2, true).test()
 
         observable.value = 1
@@ -75,7 +75,7 @@ class AggregatorTests {
 
     @Test
     fun buffer() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.buffer(2).test()
 
         observable.setValues(1, 2, 3)

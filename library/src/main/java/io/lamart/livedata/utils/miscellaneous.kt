@@ -36,7 +36,7 @@ fun <T> LiveData<T>.afterEach(subscriber: Subscriber<T>): LiveData<T> =
 
 fun <T> LiveData<T>.post(): LiveData<T> =
         switchMap {
-            liveData<T>().apply {
+            mutableLiveDataOf<T>().apply {
                 postValue(it)
             }
         }
@@ -46,7 +46,7 @@ fun <T, R> LiveData<T>.post(compose: Compose<T, R>): LiveData<R> =
 
 
 fun <T, R> LiveData<T>.mediate(block: (addSource: Subscribe<T>, setValue: Subscriber<R>) -> Unit): LiveData<R> =
-        mediator {
+        mediatorLiveDataOf {
             block(
                     { addSource(this@mediate, it) },
                     ::setValue
@@ -66,4 +66,4 @@ fun <T> Observer<T>.toSubscriber(): Subscriber<T> = this@toSubscriber::onChanged
 
 fun <T> Observe<T>.toSubscribe(): Subscribe<T> = { subscriber -> invoke(Observer(subscriber)) }
 
-fun <T> Subscribe<T>.toLiveData(): LiveData<T> = liveData(this@toLiveData)
+fun <T> Subscribe<T>.toLiveData(): LiveData<T> = liveDataOf(this@toLiveData)

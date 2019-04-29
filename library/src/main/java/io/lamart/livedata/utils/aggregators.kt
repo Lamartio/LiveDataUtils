@@ -19,11 +19,11 @@ package io.lamart.livedata.utils
 import androidx.lifecycle.LiveData
 
 fun <L, R, T> LiveData<L>.combineLatest(with: Subscribe<R>, combine: (left: L, right: R) -> T): LiveData<T> =
-        combineLatest(liveData(with), combine)
+        combineLatest(liveDataOf(with), combine)
 
 @Suppress("UNCHECKED_CAST")
 fun <L, R, T> LiveData<L>.combineLatest(with: LiveData<R>, combine: (left: L, right: R) -> T): LiveData<T> =
-        mediator {
+        mediatorLiveDataOf {
             var left: Any? = Uninitialized
             var right: Any? = Uninitialized
 
@@ -46,7 +46,7 @@ fun <L, R, T> LiveData<L>.combineLatest(with: LiveData<R>, combine: (left: L, ri
 fun <T> LiveData<T>.merge(with: Subscribe<T>): LiveData<T> = with.toLiveData().let(::merge)
 
 fun <T> LiveData<T>.merge(with: LiveData<T>): LiveData<T> =
-        mediator {
+        mediatorLiveDataOf {
             addSource(this@merge, ::setValue)
             addSource(with, ::setValue)
         }

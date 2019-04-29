@@ -28,7 +28,7 @@ class CreatorTests {
 
     @Test
     fun toMutableLiveData() {
-        liveData<Int> { next -> next(1) }
+        liveDataOf<Int> { next -> next(1) }
                 .toMutableLiveData()
                 .test()
                 .assertValue(1)
@@ -36,7 +36,7 @@ class CreatorTests {
 
     @Test
     fun livedataWithoutInitialValue() {
-        val observable = liveData<Int>()
+        val observable = mutableLiveDataOf<Int>()
         val observer = observable.test()
 
         observer.assertNoValue()
@@ -48,7 +48,7 @@ class CreatorTests {
 
     @Test
     fun livedataWithInitialValue() {
-        val observable = liveData(1)
+        val observable = mutableLiveDataOf(1)
         val observer = observable.test()
 
         observer.assertValue(1)
@@ -58,14 +58,14 @@ class CreatorTests {
 
     @Test
     fun livedataFromSubscribe() {
-        liveData<Int> { subscriber ->
+        liveDataOf<Int> { subscriber ->
             subscriber.invoke(1)
         }.test().assertValue(1)
     }
 
     @Test
     fun mediate() {
-        liveData(1)
+        mutableLiveDataOf(1)
                 .mediate<Int, Int> { addSource, setValue ->
                     addSource { value ->
                         setValue(value + value)
@@ -77,8 +77,8 @@ class CreatorTests {
 
     @Test
     fun mediator() {
-        mediator<Int> {
-            addSource(liveData(1)) { value ->
+        mediatorLiveDataOf<Int> {
+            addSource(mutableLiveDataOf(1)) { value ->
                 setValue(value + value)
             }
         }

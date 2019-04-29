@@ -56,7 +56,7 @@ mutableLiveDataOf(1).lift { next ->
 mutableLiveDataOf(1).merge(mutableLiveDataOf(1)) // will emit 1, 1
 mutableLiveDataOf(1).combineLatest(mutableLiveDataOf("a")) { num, text -> num.toString() + text } // will emit "1a"
 
-mutableLiveDataOf(1).pair()
+mutableLiveDataOf(1).pair(2) // will emit Pair<Int, Int>(1,2)
 mutableLiveDataOf(1).window(3) // will emit a list of 3 whenever it has 3 elements.
 mutableLiveDataOf(1).buffer(3) // will emit a list of 3 when it has collected 3 elements. 
 ``` 

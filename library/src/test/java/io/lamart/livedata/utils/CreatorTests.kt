@@ -27,6 +27,14 @@ class CreatorTests {
     val testRule = InstantTaskExecutorRule()
 
     @Test
+    fun toMutableLiveData() {
+        liveData<Int> { next -> next(1) }
+                .toMutableLiveData()
+                .test()
+                .assertValue(1)
+    }
+
+    @Test
     fun livedataWithoutInitialValue() {
         val observable = liveData<Int>()
         val observer = observable.test()

@@ -31,3 +31,6 @@ fun <T> liveData(subscribe: Subscribe<T>): LiveData<T> =
         MutableLiveData<T>().apply {
             subscribe(::setValue)
         }
+
+fun <T> LiveData<T>.toMutableLiveData(): MutableLiveData<T> =
+        mediator { addSource(this@toMutableLiveData, ::setValue) }

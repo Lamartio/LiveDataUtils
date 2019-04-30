@@ -20,8 +20,6 @@ val d3 : MutableLiveData<Int> = mediatorLiveDataOf {
 ```
 
 ## Transforming LiveData
-The LiveData extensions contains the `map`, `switchMap` and `distinctUntilChanged` operators.
-
 ``` kotlin
 mutableLiveDataOf(1).filter { it % 2 == 0 } // filters the odd numbers
 
@@ -35,7 +33,13 @@ mutableLiveDataOf(1).startWith(2) // will emit 2,1
 mutableLiveDataOf(1).reduce { acc, value -> acc + value  } // mutate the previous resulte with the current emission
 mutableLiveDataOf(1).reduce(seed = "a") { acc: String, value : Int -> acc + value.toString()  } // emits "a1'
 ```
-
+Some operators are available via the LiveData KTx library:
+``` kotlin
+mutableLiveDataOf(1)
+    .map { it.toFloat() }
+    .switchMap { mutableLiveDataOf(it.toString()) }
+    .distinctUntilChanged()
+```
 The operators below are handy for creating custom operators. Most of the above are created with these.
 
 ``` kotlin
@@ -77,7 +81,7 @@ data.setValues { next ->
 ```
 
 ## Observing LiveData
-The `observe` method of `LiveData` requires Kotlin to always create the `Observer` functional interface. The replace the interface with a lambda, you can use the `subscribe` method.
+The `observe` method of `LiveData` requires Kotlin to always create the `Observer` functional interface. To replace the interface with a lambda, you can use the `subscribe` method.
 
 ``` kotlin
 fun example(owner: LifecycleOwner) {
@@ -89,23 +93,25 @@ fun example(owner: LifecycleOwner) {
 It is cumbersome the pass a LiveData around, since it requires a LifecycleOwner to make a subscription. To fix this, there is an overload that returns a function that can be called without the need of a LifecycleOwner.
 
 ``` kotlin
-val observe: Observe<Int> = mutableLiveDataOf(1).observe(owner)
+fun example1(owner: LifecycleOwner) {
+    val observe: Observe<Int> = mutableLiveDataOf(1).observe(owner)
 
-// ... somewhere else the Observer can be supplied    
-observe(Observer { println(it) })
+    // ... somewhere else the Observer can be supplied    
+    observe(Observer { println(it) })
+}
 
+fun example2(owner: LifecycleOwner) {
+    val subscribe: Subscribe<Int> = mutableLiveDataOf(1).subscribe(owner)
 
-
-val subscribe: Subscribe<Int> = mutableLiveDataOf(1).subscribe(owner)
-
-// ... somewhere else the lambda can be supplied
-subscribe(::println)
+    // ... somewhere else the lambda can be supplied
+    subscribe(::println)
+}
 ```
 
-This can be very useful to pass observable data to a ViewModel in the case of events like clicks or text changes. In the sample project are buttons that sort the ViewModel data by using `subscribe` and `combineLatest`.
+This can be very useful for passing observable data to a ViewModel in the case of events like clicks or text changes. In the sample project are buttons that sort the ViewModel data by using `subscribe` and `combineLatest`.
 
 ## Logging
-There is an operator for executing a side effect before and after calling the subsequent operator.
+There are operators for executing a side effect before and after calling the subsequent operators.
 
 ``` kotlin
 mutableLivedataOf(1).beforeEach { println(it) } 

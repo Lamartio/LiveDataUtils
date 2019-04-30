@@ -1,7 +1,7 @@
 # LiveData utils
 When a ViewModel has to work with more complex logic and state, then the default operators  of LiveData (`map`, `switchMap` and `distinctUntilchanged`) are not enough. Hence this repo introduces the most popular operators from Rx, but then as extension functions on LiveData.
 
-There is a sample project included that demonstrates the simplicity it provides.
+There is a sample project included for demonstration.
 
 ## Creating LiveData
 

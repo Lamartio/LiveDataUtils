@@ -24,6 +24,8 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
+        versionCode 1
+        versionName '1.0.2'
         minSdkVersion 14
         targetSdkVersion 28
     }
@@ -38,6 +40,19 @@ dependencies {
     testImplementation "androidx.lifecycle:lifecycle-extensions:$livedata_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testImplementation "com.jraska.livedata:testing-ktx:1.1.0"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+// https://chris.banes.dev/2013/08/27/pushing-aars-to-maven-central/
+// https://github.com/chrisbanes/ActionBar-PullToRefresh
+// https://github.com/chrisbanes/gradle-mvn-push
+
+
+// https://github.com/dcendents/android-maven-gradle-plugin
+// https://github.com/ptyagicodecamp/webview-overlay/blob/master/WebViewOverlay/build.gradle
+// https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle
+// https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle
+
+
+// https://github.com/florent37/Multiplatform-Log/
+
+apply from: 'publish.gradle'

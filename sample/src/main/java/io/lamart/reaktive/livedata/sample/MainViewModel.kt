@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import io.lamart.livedata.utils.Subscribe
-import io.lamart.livedata.utils.combineLatest
+import io.lamart.livedata.utils.withLatestFrom
 import io.lamart.reaktive.livedata.sample.utils.Order
 import io.lamart.reaktive.livedata.sample.utils.State
 
@@ -35,7 +35,7 @@ class MainViewModel(
             .map { it.count.toString() }
     val pokemon = data
             .map { it.pokemon }
-            .combineLatest(order) { pokemon, order ->
+            .withLatestFrom(order) { pokemon, order ->
                 when (order) {
                     Order.ASCENDING -> pokemon.sorted()
                     Order.DESCENDING -> pokemon.sortedDescending()

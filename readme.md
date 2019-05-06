@@ -1,3 +1,4 @@
+[![Gitter](https://badges.gitter.im/Lamartio-LiveDataUtils/community.svg)](https://gitter.im/Lamartio-LiveDataUtils/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 # LiveData utils
 When a ViewModel has to work with more complex logic and state, then the default operators  of LiveData (`map`, `switchMap` and `distinctUntilchanged`) are not enough. Hence this repo introduces the most popular operators from Rx, but then as extension functions on LiveData.
 

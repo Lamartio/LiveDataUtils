@@ -1,5 +1,5 @@
 [![Code Coverage](https://img.shields.io/badge/coverage-94%25-green.svg)](https://github.com/Lamartio/LiveDataUtils/tree/master/library/src/test/java/io/lamart/livedata/utils)
-[![Gitter](https://badges.gitter.im/Lamartio-LiveDataUtils/community.svg)](https://gitter.im/Lamartio-LiveDataUtils/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://badges.gitter.im/Lamartio-LiveDataUtils/community.svg)](https://gitter.im/Lamartio-LiveDataUtils/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Join the chat at https://gitter.im/LiveDataUtils/community](https://badges.gitter.im/LiveDataUtils/community.svg)](https://gitter.im/LiveDataUtils/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 # LiveData utils
 When a ViewModel has to work with more complex logic and state, then the default operators  of LiveData (`map`, `switchMap` and `distinctUntilchanged`) are not enough. Hence this repo introduces the most popular operators from Rx, but then as extension functions on LiveData.
 

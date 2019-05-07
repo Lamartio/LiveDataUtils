@@ -1,9 +1,28 @@
+[ ![Download](https://api.bintray.com/packages/lamartio/maven/LiveDataUtils/images/download.svg) ](https://bintray.com/lamartio/maven/LiveDataUtils/_latestVersion)
 [![Code Coverage](https://img.shields.io/badge/coverage-94%25-green.svg)](https://github.com/Lamartio/LiveDataUtils/tree/master/library/src/test/java/io/lamart/livedata/utils)
 [![Gitter](https://badges.gitter.im/LiveDataUtils/community.svg)](https://gitter.im/LiveDataUtils/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 # LiveData utils
 When a ViewModel has to work with more complex logic and state, then the default operators  of LiveData (`map`, `switchMap` and `distinctUntilchanged`) are not enough. Hence this repo introduces the most popular operators from Rx, but then as extension functions on LiveData.
 
 There is a sample project included for demonstration.
+
+```
+// add this to your root build.gradle
+allprojects {
+    repositories {
+        maven { url "https://dl.bintray.com/lamartio/maven" }
+        // ...       
+    }
+}
+
+// add this to your module build.gradle
+
+dependencies {
+    implementation 'io.lamart.livedata:livedata-utils:+'
+    // ...
+}
+
+```
 
 ## Creating LiveData
 

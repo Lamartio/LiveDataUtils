@@ -52,7 +52,10 @@ dependencies {
 // https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle
 // https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle
 
-
 // https://github.com/florent37/Multiplatform-Log/
+
+// https://crushingcode.nisrulz.com/publish-your-android-library-via-jitpack/
+// https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle
+// https://raw.githubusercontent.com/nisrulz/JCenter/master/bintrayv1.gradle
 
 apply from: 'publish.gradle'

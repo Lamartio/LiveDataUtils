@@ -14,7 +14,7 @@ publishing {
     publications {
         Production(MavenPublication) {
 
-            artifact("$buildDir/outputs/aar/library-release.aar")
+            artifact "$buildDir/outputs/aar/library-release.aar"
             groupId this.group
             artifactId project.ext['ARTIFACT_ID']
             version this.version
@@ -54,9 +54,5 @@ bintray {
         publicDownloadNumbers = true
         licenses = ['Apache-2.0']
         vcsUrl = project.ext['POM_VCS_URL']
-
-        version {
-            name = this.version
-        }
     }
 }

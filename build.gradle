@@ -13,7 +13,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url "https://dl.bintray.com/lamartio/maven" }
         google()
         jcenter()
     }

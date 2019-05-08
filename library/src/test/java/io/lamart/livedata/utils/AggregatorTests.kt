@@ -29,9 +29,9 @@ class AggregatorTests {
     private fun <T> subscribe(value: T): Subscribe<T> = { subscriber: Subscriber<T> -> subscriber.invoke(value) }
 
     @Test
-    fun withLatestFrom() {
+    fun combine() {
         mutableLiveDataOf(1.0)
-                .withLatestFrom(subscribe(2)) { l, r -> l.plus(r).toString() }
+                .combine(subscribe(2)) { l, r -> l.plus(r).toString() }
                 .test()
                 .assertValue("3.0")
     }

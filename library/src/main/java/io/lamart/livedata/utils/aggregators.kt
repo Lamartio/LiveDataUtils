@@ -22,8 +22,8 @@ import androidx.lifecycle.LiveData
  * Takes the latest of the LiveData and the first argument, combines them with the second argument and then emits the result.
  */
 
-fun <L, R, T> LiveData<L>.withLatestFrom(with: Subscribe<R>, combine: (left: L, right: R) -> T): LiveData<T> =
-        withLatestFrom(liveDataOf(with), combine)
+fun <L, R, T> LiveData<L>.combine(with: Subscribe<R>, combine: (left: L, right: R) -> T): LiveData<T> =
+        combine(liveDataOf(with), combine)
 
 
 /**
@@ -31,7 +31,7 @@ fun <L, R, T> LiveData<L>.withLatestFrom(with: Subscribe<R>, combine: (left: L, 
  */
 
 @Suppress("UNCHECKED_CAST")
-fun <L, R, T> LiveData<L>.withLatestFrom(with: LiveData<R>, combine: (left: L, right: R) -> T): LiveData<T> =
+fun <L, R, T> LiveData<L>.combine(with: LiveData<R>, combine: (left: L, right: R) -> T): LiveData<T> =
         mediatorLiveDataOf {
             var left: Any? = Uninitialized
             var right: Any? = Uninitialized
@@ -41,7 +41,7 @@ fun <L, R, T> LiveData<L>.withLatestFrom(with: LiveData<R>, combine: (left: L, r
                     combine(left as L, right as R).let(::setValue)
             }
 
-            addSource(this@withLatestFrom) { l ->
+            addSource(this@combine) { l ->
                 left = l
                 emit()
             }

@@ -25,7 +25,6 @@ import androidx.lifecycle.LiveData
 fun <L, R, T> LiveData<L>.combine(with: Subscribe<R>, combine: (left: L, right: R) -> T): LiveData<T> =
         combine(liveDataOf(with), combine)
 
-
 /**
  * Takes the latest of each LiveData, combines them with the second argument and then emits the result.
  */

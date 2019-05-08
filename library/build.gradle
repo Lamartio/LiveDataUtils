@@ -16,6 +16,7 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.novoda.bintray-release'
 
 def kotlin_version = ext.hasProperty('kotlin_version') ? ext.kotlin_version : '1.3.30'
 def livedata_version = ext.hasProperty('livedata_version') ? ext.kotlin_version : '2.1.0-alpha04'
@@ -25,7 +26,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        versionName '1.0.4'
+        versionName '1.0.1'
         minSdkVersion 14
         targetSdkVersion 28
     }
@@ -42,20 +43,24 @@ dependencies {
     testImplementation "com.jraska.livedata:testing-ktx:1.1.0"
 }
 
-// https://chris.banes.dev/2013/08/27/pushing-aars-to-maven-central/
-// https://github.com/chrisbanes/ActionBar-PullToRefresh
-// https://github.com/chrisbanes/gradle-mvn-push
+def properties = project.rootProject.file('local.properties').withDataInputStream { stream ->
+    def props = new Properties()
+    props.load(stream)
+    props
+}
 
+publish {
+    userOrg 'lamartio'
+    groupId 'io.lamart.livedata'
+    artifactId 'livedata-utils'
+    publishVersion android.defaultConfig.versionName
+    uploadName 'LiveDataUtils'
+    desc 'Utilities and operators for LiveData'
+    website 'https://github.com/Lamartio/LiveDataUtils.git'
 
-// https://github.com/dcendents/android-maven-gradle-plugin
-// https://github.com/ptyagicodecamp/webview-overlay/blob/master/WebViewOverlay/build.gradle
-// https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle
-// https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle
+    bintrayUser properties['BINTRAY_USER']
+    bintrayKey properties['BINTRAY_KEY']
 
-// https://github.com/florent37/Multiplatform-Log/
-
-// https://crushingcode.nisrulz.com/publish-your-android-library-via-jitpack/
-// https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle
-// https://raw.githubusercontent.com/nisrulz/JCenter/master/bintrayv1.gradle
-
-apply from: 'publish.gradle'
+    dryRun false
+    override true
+}

@@ -8,21 +8,10 @@ When a ViewModel has to work with more complex logic and state, then the default
 There is a sample project included for demonstration.
 
 ```
-// add this to your root build.gradle
-allprojects {
-    repositories {
-        maven { url "https://dl.bintray.com/lamartio/maven" }
-        // ...       
-    }
-}
-
-// add this to your module build.gradle
-
 dependencies {
     implementation 'io.lamart.livedata:livedata-utils:+'
     // ...
 }
-
 ```
 
 ## Creating LiveData

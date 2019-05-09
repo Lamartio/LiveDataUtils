@@ -7,11 +7,8 @@ When a ViewModel has to work with more complex logic and state, then the default
 
 There is a sample project included for demonstration.
 
-```
-dependencies {
-    implementation 'io.lamart.livedata:livedata-utils:+'
-    // ...
-}
+``` groovy
+implementation 'io.lamart.livedata:livedata-utils:+'
 ```
 
 ## Creating LiveData
